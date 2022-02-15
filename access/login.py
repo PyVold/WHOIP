@@ -48,7 +48,7 @@ def login():
 @access_app.route('/tokens/', methods=['GET', 'POST'])
 @login_required
 def tokens():
-    return render_template('profile.html')
+    return render_template('tokens.html')
 
 @access_app.route('/logout/')
 @login_required
