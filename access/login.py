@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, Blueprint
+from flask import Flask, render_template, request, redirect, session, Blueprint, url_for
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required, LoginManager
 from urllib.parse import urlparse, urljoin
 from . import auth_app as access_app
@@ -34,12 +34,15 @@ def login():
             return render_template('login.html', message = 'User not found')
         else:
             login_user(user)
-            if 'next' in session:
+            if ('next' in session) and ('logout' not in session):
                 next = session['next']
                 if is_safe_url(next):
                     return redirect(next)
-    session['next'] = request.args.get('next')
+            return redirect(url_for('access.tokens'))
+    if request.args.get('next'):
+        session['next'] = request.args.get('next')
     return render_template('login.html')
+    
 
 
 @access_app.route('/tokens/', methods=['GET', 'POST'])
@@ -51,4 +54,4 @@ def tokens():
 @login_required
 def logout():
     logout_user()
-    login()
+    return redirect(url_for('access.login'))
