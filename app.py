@@ -22,4 +22,4 @@ app.register_blueprint(auth_app)
 
 if __name__ == '__main__':
     # debug mode has to be turned off in production, it's only for testing.
-    app.run(host = "0.0.0.0", port = "5500")
+    app.run(host = "0.0.0.0", port = "5500", debug=False)
