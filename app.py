@@ -1,6 +1,7 @@
 from flask import Flask
 from resources import api, blueprint
-from access import auth_app, db, login_manager
+from access import auth_app, db
+from access.login import login_manager
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
@@ -13,11 +14,11 @@ app.config['SECRET_KEY'] = 'mysecret'
 
 db.init_app(app)
 login_manager.init_app(app)
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'access.login'
 
 app.register_blueprint(blueprint)
 app.register_blueprint(auth_app)
-#app.register_blueprint(signup_app)
+
 
 if __name__ == '__main__':
     # debug mode has to be turned off in production, it's only for testing.
