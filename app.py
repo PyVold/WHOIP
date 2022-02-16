@@ -1,7 +1,7 @@
 from flask import Flask
 from resources import api, blueprint
-from access import auth_app, db
-from access.login import login_manager
+from access import access_app, db
+from access import login_manager
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 
@@ -17,7 +17,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'access.login'
 
 app.register_blueprint(blueprint)
-app.register_blueprint(auth_app)
+app.register_blueprint(access_app)
 
 
 if __name__ == '__main__':
