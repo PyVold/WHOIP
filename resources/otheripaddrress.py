@@ -28,13 +28,12 @@ schema_fields = ns_remote.model('WHOIP', {
 })
 
 class RemoteAddress(Resource):
-    @ns_remote.marshal_with(schema_fields, mask=None)
-    @ns_remote.doc(responses={200: "success", 400: 'Invalid Argument', 401: 'Invalid token'})
+    @ns_remote.response(model=schema_fields, description='success', code=200)
     #@ns_remote.expect(resource_fields)
     #@ns_remote.doc(params={'user': 'username'})
     @ns_remote.doc(description='Remote IP address WHOIS')
     @ns_remote.doc(security='apikey')
-    #@token_required
+    @token_required
     def get(self, ipaddress, mask=None):
         try:
             netaddr.IPAddress(ipaddress)
