@@ -1,12 +1,3 @@
-<<<<<<< HEAD:access/login.py
-from flask import Flask, render_template, request, redirect, session, Blueprint
-from flask_login import UserMixin, login_user, logout_user, current_user, login_required, LoginManager
-from urllib.parse import urlparse, urljoin
-from . import auth_app as access_app
-from . import db
-
-
-=======
 from flask import Flask, render_template, request, redirect, session, Blueprint, url_for, flash
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required, LoginManager
 from urllib.parse import urlparse, urljoin
@@ -15,7 +6,6 @@ from . import User
 from werkzeug.security import check_password_hash
 
 '''
->>>>>>> 643ce810a5ba7d4669e13b1bec079dc42d1e027e:access/access.py
 login_manager = LoginManager()
 
 class User(UserMixin, db.Model):

@@ -3,10 +3,6 @@ from flask_login import LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-<<<<<<< HEAD
-
-auth_app = Blueprint('access', __name__, template_folder='templates')
-=======
 
 access_app = Blueprint('access', __name__, template_folder='templates', url_prefix='/myapi/')
 
@@ -29,4 +25,3 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 from . import login, signup
->>>>>>> 643ce810a5ba7d4669e13b1bec079dc42d1e027e
