@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-access_app = Blueprint('access', __name__, template_folder='templates', url_prefix='/myapi/')
+access_app = Blueprint('access', __name__, template_folder='templates', url_prefix='/myapi')
 
 
 login_manager = LoginManager()

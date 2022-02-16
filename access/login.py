@@ -49,7 +49,7 @@ def login():
     return render_template('login.html')
     
 
-
+@access_app.route('/')
 @access_app.route('/tokens/', methods=['GET', 'POST'])
 @login_required
 def tokens():
