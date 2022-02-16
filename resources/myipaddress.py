@@ -1,3 +1,4 @@
+from typing import Literal
 from flask_restplus import Resource, fields, Namespace, marshal_with
 from marshmallow import Schema 
 from flask import request, jsonify, make_response, request, Blueprint
@@ -25,14 +26,14 @@ schema_fields = ns_myip.model('WHOIP', {
 })
 
 class MYIP(Resource):
-    @ns_myip.marshal_with(schema_fields, mask=None)
+    #@ns_myip.marshal_with(schema_fields, mask=None)
+    @ns_myip.response(model=schema_fields, code=200, description='success')
     @ns_myip.doc(description='My IP address WHOIS')
     @ns_myip.doc(security='apikey')
-    #@token_required
+    @token_required
     def get(self):
         result = {}
         ipaddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-        #all_info = geolocation(ipaddr)
         result['ip'] = ipaddr
         country_code = get_country_code(ipaddr)
         country_data = cdata(country_code)

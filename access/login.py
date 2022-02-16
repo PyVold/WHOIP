@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, session, Blueprint, url_for
+from flask import Flask, render_template, request, redirect, session, Blueprint, url_for, flash
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required, LoginManager
 from urllib.parse import urlparse, urljoin
-from . import auth_app as access_app
-from . import db
+from . import access_app
+from . import User
+from werkzeug.security import check_password_hash
 
-
+'''
 login_manager = LoginManager()
 
 class User(UserMixin, db.Model):
@@ -17,7 +18,7 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-    
+    '''
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
@@ -28,10 +29,14 @@ def is_safe_url(target):
 def login():
     if request.method == 'POST':
         username = request.form['username']
+        password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        
         if not user:
-            return render_template('login.html', message = 'User not found')
+            flash('User does not exist!')
+            return redirect(url_for('access.login'))
+        elif not check_password_hash(user.password, password):
+            flash('Please check your login details and try again.')
+            return redirect(url_for('access.login'))
         else:
             login_user(user)
             if ('next' in session) and ('logout' not in session):
@@ -48,7 +53,8 @@ def login():
 @access_app.route('/tokens/', methods=['GET', 'POST'])
 @login_required
 def tokens():
-    return render_template('tokens.html')
+    token = current_user.token
+    return render_template('tokens.html', token=token)
 
 @access_app.route('/logout/')
 @login_required
