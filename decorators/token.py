@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request
 from flask_login import current_user
-from access import User
+from access import User, Application
 
 def token_required(f):
     @wraps(f)
@@ -9,7 +9,7 @@ def token_required(f):
         token = None
         if 'X-API-KEY' in request.headers:
             token = request.headers['X-API-KEY']
-            tokencheck = User.query.filter_by(token=token).first()
+            tokencheck = Application.query.filter_by(token=token).first()
             if not tokencheck:
                 return {'message': 'Token is not recognized'}, 401
         if not token:

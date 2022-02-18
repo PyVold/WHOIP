@@ -15,7 +15,14 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-    token = db.Column(db.String(1000), unique=True)
+    applications = db.relationship("Application", back_populates="username")
+
+class Application(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    app_name = db.Column(db.String(100))
+    user_id = db.Column(db.ForeignKey('user.id'))
+    username = db.relationship("User", back_populates="applications")
+    token = db.Column(db.String(1000))
 
     def __repr__(self):
         return self.username

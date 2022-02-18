@@ -1,8 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
+<center><table align="center" border="1" width="100%" ID="Table2" style="margin: 0px;">
+    <thead>
+      <tr align="center">
+        <th align="center">Application Name</th>
+        <th align="center">Token</th>
+        <th align="center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for key, value in apps.items() %}
+     <tr align="center">
+         <td align="center"> {{ key }} </td>
+         <td align="center">  {{ value }} </td>
+         <td align="center"> Valid </td>
+     </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</center>
 <h1 class="title">
-    Your token:<br>
-    {{token}}
+ <div class="column is-4 is-offset-4">
+    <h3 class="title">Add Application</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+    <div class="notification is-danger">
+        {{ messages[0] }}<br> Go to <a href="{{ url_for('access.tokens') }}">My Apps</a>.
+    </div>
+        {% endif %}
+         {% endwith %}
+        <form method="POST" action="{{ url_for('access.tokens') }}">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="username" name="appname" placeholder="APP Name" autofocus="">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">ADD</button>
+        </form>
+    </div>
+</div>
 </h1>
 {% endblock %}

@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.abspath('') + '/lite.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.abspath('') + '/lite2.db'
 app.config['SECRET_KEY'] = 'mysecret'
 
 db.init_app(app)
