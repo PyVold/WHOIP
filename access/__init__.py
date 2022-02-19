@@ -2,9 +2,11 @@ from flask import Blueprint
 from flask_login import LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 access_app = Blueprint('access', __name__, template_folder='templates', url_prefix='/myapi')
+
 
 
 login_manager = LoginManager()
@@ -17,15 +19,15 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     applications = db.relationship("Application", back_populates="username")
 
+    def __repr__(self):
+        return self.username
+
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     app_name = db.Column(db.String(100))
     user_id = db.Column(db.ForeignKey('user.id'))
     username = db.relationship("User", back_populates="applications")
     token = db.Column(db.String(1000))
-
-    def __repr__(self):
-        return self.username
 
 @login_manager.user_loader
 def load_user(user_id):
