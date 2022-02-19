@@ -19,7 +19,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'access.login'
 
 
-admin = Admin(app, name='microblog', template_mode='bootstrap3')
+admin = Admin(app, name='MyIP API admin panel', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Application, db.session))
 
