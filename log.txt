@@ -1,0 +1,11 @@
+nohup: ignoring input
+/home/ubuntu/.conda/envs/flaskql/lib/python3.9/site-packages/flask_sqlalchemy/__init__.py:872: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  warnings.warn(FSADeprecationWarning(
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://0.0.0.0:5500/ (Press CTRL+C to quit)
+192.168.1.1 - - [19/Feb/2022 06:22:59] "GET /myapi/tokens/ HTTP/1.1" 200 -
+192.168.1.1 - - [19/Feb/2022 06:23:04] "GET /myapi/tokens/ HTTP/1.1" 200 -
