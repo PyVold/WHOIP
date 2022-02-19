@@ -31,4 +31,4 @@ class Application(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-from . import login, signup
+from . import login, signup, delete

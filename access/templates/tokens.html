@@ -6,15 +6,15 @@
       <tr align="center">
         <th align="center">Application Name</th>
         <th align="center">Token</th>
-        <th align="center">Status</th>
+        <th align="center">Action</th>
       </tr>
     </thead>
     <tbody>
     {% for key, value in apps.items() %}
      <tr align="center">
          <td align="center"> {{ key }} </td>
-         <td align="center">  {{ value }} </td>
-         <td align="center"> Valid </td>
+         <td align="center">  {{ value[0] }} </td>
+         <td align="center"> <a href="{{ url_for('access.delete_app', app_id = value[1]) }}">Delete</a> </td>
      </tr>
     {% endfor %}
     </tbody>

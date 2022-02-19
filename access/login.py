@@ -46,9 +46,9 @@ def tokens():
         apps = {}
         if len(fetch_apps) != 0:
             for each_app in fetch_apps:
-                apps[each_app.app_name] = each_app.token
+                apps[each_app.app_name] = [each_app.token, each_app.id]
         else:
-            apps['None'] = 'None' 
+            apps['None'] = ['None', 0] 
         return render_template('tokens.html', apps=apps)
 
     if request.method == 'POST':
