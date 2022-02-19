@@ -46,7 +46,7 @@ def tokens():
         apps = {}
         if len(fetch_apps) != 0:
             for each_app in fetch_apps:
-                apps[each_app.app_name] = [each_app.token, each_app.id]
+                apps[each_app.app_name] = [each_app.token, each_app.id, each_app.state]
         else:
             apps['None'] = ['None', 0] 
         return render_template('tokens.html', apps=apps)
@@ -61,7 +61,7 @@ def tokens():
                 flash('This application is already registered!')
                 return redirect(url_for('access.tokens'))
         token = secrets.token_hex(16)
-        new_app = Application(app_name = appname, user_id = current_user.id, token=token)
+        new_app = Application(app_name = appname, user_id = current_user.id, token=token, state='waiting approval')
         db.session.add(new_app)
         db.session.commit()
         return redirect(url_for('access.tokens'))

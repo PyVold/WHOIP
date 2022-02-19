@@ -11,6 +11,7 @@ access_app = Blueprint('access', __name__, template_folder='templates', url_pref
 
 login_manager = LoginManager()
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(100), unique = True)
@@ -28,6 +29,7 @@ class Application(db.Model):
     user_id = db.Column(db.ForeignKey('user.id'))
     username = db.relationship("User", back_populates="applications")
     token = db.Column(db.String(1000))
+    state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', name='token_status'), server_default='waiting approval')
 
 @login_manager.user_loader
 def load_user(user_id):
