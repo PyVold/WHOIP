@@ -1,22 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<center><table align="center" border="1" width="100%" ID="Table2" style="margin: 0px;">
+<center><table style="text-align:center;"" border="1" width="100%" ID="Table2" style="margin: 0px;">
     <thead>
-      <tr align="center">
-        <th align="center">Application Name</th>
-        <th align="center">Token</th>
-        <th align="center">Status</th>
-        <th align="center">Action</th>
+      <tr style="text-align:center;"">
+        <th style="text-align:center;"">Application Name</th>
+        <th style="text-align:center;"">Token</th>
+        <th style="text-align:center;"">Status</th>
+        <th style="text-align:center;"">calls count</th>
+        <th style="text-align:center;"">Action</th>
       </tr>
     </thead>
     <tbody>
     {% for key, value in apps.items() %}
-     <tr align="center">
-         <td align="center"> {{ key }} </td>
-         <td align="center">  {{ value[0] }} </td>
-         <td align="center">  {{ value[2] }} </td>
-         <td align="center"> <a href="{{ url_for('access.delete_app', app_id = value[1]) }}">Delete</a> </td>
+     <tr style="text-align:center;"">
+         <td style="text-align:center;""> {{ key }} </td>
+         <td style="text-align:center;"">  {{ value[0] }} </td>
+         {% if value[2]  == 'active' %}
+         <td style="background-color: green; color: white; text-align: center;">  {{ value[2] }} </td>
+         {% else %}
+         <td style="background-color: red; color: white; text-align: center;">  {{ value[2] }} </td>
+         {% endif %}
+         <td style="text-align:center;"">  {{ value[3] }}</td>
+         <td style="text-align:center;"> <a href="{{ url_for('access.delete_app', app_id = value[1]) }}">Delete</a> </td>
      </tr>
     {% endfor %}
     </tbody>
