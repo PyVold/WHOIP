@@ -22,7 +22,11 @@
          <td style="background-color: red; color: white; text-align: center;">  {{ value[2] }} </td>
          {% endif %}
          <td style="text-align:center;"">  {{ value[3] }}</td>
+         {% if value[2]  == 'deletion requested' %}
+         <td style="text-align:center;"> <a href="{{ url_for('access.rollback_app', app_id = value[1]) }}">Rollback</a> </td>
+         {% else %}
          <td style="text-align:center;"> <a href="{{ url_for('access.delete_app', app_id = value[1]) }}">Delete</a> </td>
+         {% endif %}
      </tr>
     {% endfor %}
     </tbody>
