@@ -14,6 +14,6 @@ def delete_app(app_id):
     if app_id == 0 or not this_app :
         return redirect(url_for('access.tokens'))
     if this_app.user_id == current_user.id:
-        db.session.delete(this_app)
+        this_app.state='deletion requested'
         db.session.commit()
     return redirect(url_for('access.tokens'))

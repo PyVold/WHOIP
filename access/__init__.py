@@ -30,7 +30,7 @@ class Application(db.Model):
     username = db.relationship("User", back_populates="applications")
     token = db.Column(db.String(1000))
     calls_count = db.Column(db.Integer)
-    state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', name='token_status'), server_default='waiting approval')
+    state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', 'deletion requested', name='token_status'), server_default='waiting approval')
 
     def __repr__(self):
         return self.app_name
