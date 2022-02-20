@@ -12,6 +12,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.abspath('') + '/lite2.db'
 app.config['SECRET_KEY'] = 'mysecret'
+app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 
 db.init_app(app)

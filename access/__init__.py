@@ -31,6 +31,9 @@ class Application(db.Model):
     token = db.Column(db.String(1000))
     state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', name='token_status'), server_default='waiting approval')
 
+    def __repr__(self):
+        return self.app_name
+        
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
