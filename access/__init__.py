@@ -1,3 +1,4 @@
+from email.policy import default
 from flask import Blueprint
 from flask_login import LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy
@@ -34,6 +35,8 @@ class Application(db.Model):
     username = db.relationship("User", back_populates="applications")
     token = db.Column(db.String(1000))
     calls_count = db.Column(db.Integer)
+    date = db.Column(db.Text(100))
+    max_calls=db.Column(db.Integer, default=1000)
     state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', 'deletion requested', name='token_status'), server_default='waiting approval')
 
     def __repr__(self):
