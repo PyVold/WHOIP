@@ -18,7 +18,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User.lookup(username=username).first()
+        user = User.lookup(username=username)
         if not user:
             flash('User does not exist!')
             return redirect(url_for('access.login'))
