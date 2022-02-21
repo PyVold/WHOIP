@@ -18,7 +18,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User.query.filter_by(username=username).first()
+        user = User.lookup(username=username).first()
         if not user:
             flash('User does not exist!')
             return redirect(url_for('access.login'))
@@ -41,7 +41,7 @@ def login():
 @access_app.route('/tokens/', methods=['GET', 'POST'])
 @login_required
 def tokens():
-    fetch_apps = User.query.filter_by(username=current_user.username).first().applications
+    fetch_apps = User.lookup(username=current_user.username).applications
     if request.method == 'GET':
         apps = {}
         if len(fetch_apps) != 0:

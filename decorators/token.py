@@ -9,7 +9,7 @@ def token_required(f):
         token = None
         if 'X-API-KEY' in request.headers:
             token = request.headers['X-API-KEY']
-            tokencheck = Application.query.filter_by(token=token).first()
+            tokencheck = Application.lookup(token=token)
             if not tokencheck:
                 return {'message': 'Token is not recognized'}, 401
             if tokencheck.state != 'active':
