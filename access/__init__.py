@@ -34,10 +34,10 @@ class Application(db.Model):
     user_id = db.Column(db.ForeignKey('user.id'))
     username = db.relationship("User", back_populates="applications")
     token = db.Column(db.String(1000))
-    calls_count = db.Column(db.Integer)
+    calls_count = db.Column(db.Integer, default=0)
     date = db.Column(db.Text(100))
     max_calls=db.Column(db.Integer, default=1000)
-    state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', 'deletion requested', name='token_status'), server_default='waiting approval')
+    state = db.Column('state', db.Enum('active', 'waiting approval', 'Not Active', 'deletion requested', name='token_status'), default='waiting approval')
 
     def __repr__(self):
         return self.app_name

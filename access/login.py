@@ -61,7 +61,7 @@ def tokens():
                 flash('This application is already registered!')
                 return redirect(url_for('access.tokens'))
         token = secrets.token_hex(16)
-        new_app = Application(app_name = appname, user_id = current_user.id, token=token, state='waiting approval', calls_count = 0)
+        new_app = Application(app_name = appname, user_id = current_user.id, token=token)
         db.session.add(new_app)
         db.session.commit()
         return redirect(url_for('access.tokens'))
