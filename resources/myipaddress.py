@@ -30,7 +30,7 @@ class MYIP(Resource):
     @ns_myip.response(model=schema_fields, code=200, description='success')
     @ns_myip.doc(description='My IP address WHOIS')
     @ns_myip.doc(security='apikey')
-    @token_required
+    #@token_required
     def get(self):
         result = {}
         ipaddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)

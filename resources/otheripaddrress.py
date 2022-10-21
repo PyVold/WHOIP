@@ -33,7 +33,7 @@ class RemoteAddress(Resource):
     #@ns_remote.doc(params={'user': 'username'})
     @ns_remote.doc(description='Remote IP address WHOIS')
     @ns_remote.doc(security='apikey')
-    @token_required
+    #@token_required
     def get(self, ipaddress, mask=None):
         try:
             netaddr.IPAddress(ipaddress)

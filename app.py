@@ -6,13 +6,19 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from logbase import call_logger, setup_logger
+
+
+call_logger()
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+here = os.path.dirname(__file__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.abspath('') + '/lite2.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + here + '/lite2.db'
 app.config['SECRET_KEY'] = 'mysecret'
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+app.config.SWAGGER_UI_DOC_EXPANSION = 'list'
 
 
 db.init_app(app)
