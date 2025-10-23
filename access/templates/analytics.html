@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>API Usage Analytics</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Applications</h5>
+                    <h2>{{ total_apps }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Active</h5>
+                    <h2>{{ active_apps }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Calls Today</h5>
+                    <h2>{{ total_calls_today }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Daily Quota</h5>
+                    <h2>{{ total_quota }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4>Application Usage Details</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Application</th>
+                            <th>Status</th>
+                            <th>Calls Today</th>
+                            <th>Daily Limit</th>
+                            <th>Usage</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in apps %}
+                        <tr>
+                            <td><strong>{{ app.app_name }}</strong></td>
+                            <td>
+                                {% if app.state == 'active' %}
+                                    <span class="badge bg-success">Active</span>
+                                {% elif app.state == 'waiting approval' %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% elif app.state == 'deletion requested' %}
+                                    <span class="badge bg-danger">Deletion Requested</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ app.state }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ app.calls_count }}</td>
+                            <td>{{ app.max_calls }}</td>
+                            <td>
+                                {% set usage_percent = (app.calls_count / app.max_calls * 100) if app.max_calls > 0 else 0 %}
+                                {{ "%.1f"|format(usage_percent) }}%
+                            </td>
+                            <td>
+                                {% set usage_percent = (app.calls_count / app.max_calls * 100) if app.max_calls > 0 else 0 %}
+                                <div class="progress">
+                                    {% if usage_percent < 50 %}
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ usage_percent }}%" aria-valuenow="{{ usage_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    {% elif usage_percent < 80 %}
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ usage_percent }}%" aria-valuenow="{{ usage_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    {% else %}
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ usage_percent }}%" aria-valuenow="{{ usage_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a href="{{ url_for('access.tokens') }}" class="btn btn-primary">Back to Tokens</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

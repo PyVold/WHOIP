@@ -83,6 +83,9 @@ class Config:
     # Admin Users (comma-separated usernames)
     ADMIN_USERS = os.getenv('ADMIN_USERS', 'admin').split(',')
 
+    # Base URL for email links
+    BASE_URL = os.getenv('BASE_URL', 'http://localhost:5500')
+
 
 class DevelopmentConfig(Config):
     """Development environment configuration."""

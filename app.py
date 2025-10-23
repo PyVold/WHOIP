@@ -47,6 +47,27 @@ login_manager.init_app(app)
 login_manager.login_view = 'access.login'
 login_manager.login_message = 'Please log in to access this page.'
 
+# Initialize email service
+try:
+    from services.email_service import mail
+    mail.init_app(app)
+    logger = logging.getLogger(__name__)
+    logger.info("Email service initialized")
+except Exception as e:
+    logger = logging.getLogger(__name__)
+    logger.warning(f"Email service initialization failed: {e}")
+
+# Initialize Redis cache
+try:
+    from services.cache_service import init_cache
+    redis_url = app.config.get('RATELIMIT_STORAGE_URL', 'memory://')
+    init_cache(redis_url)
+    logger = logging.getLogger(__name__)
+    logger.info("Cache service initialized")
+except Exception as e:
+    logger = logging.getLogger(__name__)
+    logger.warning(f"Cache service initialization failed: {e}")
+
 
 class SecureAdminIndexView(AdminIndexView):
     """Custom admin index view that requires authentication."""
