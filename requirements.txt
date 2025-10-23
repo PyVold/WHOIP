@@ -68,6 +68,10 @@ attrs==21.4.0
 pyrsistent==0.18.1
 six==1.16.0
 
+# Testing (for CI/CD)
+pytest==7.2.1
+pytest-cov==4.0.0
+
 # Optional (remove if not needed)
 Flask-GraphQL==2.0.1
 Flask-Script==2.0.6
