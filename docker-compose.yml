@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # Main WHOIP application
+  whoip:
+    build: .
+    container_name: whoip-app
+    ports:
+      - "5500:5500"
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=sqlite:///lite2.db
+      - MAX_APPS_PER_USER=3
+      - DEFAULT_RATE_LIMIT=1000
+      - RIPE_API_TIMEOUT=5
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./lite2.db:/app/lite2.db
+      - ./logs:/app/logs
+      - ./database/data.csv:/app/database/data.csv:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5500/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - whoip-network
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: whoip-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - whoip
+    restart: unless-stopped
+    networks:
+      - whoip-network
+    profiles:
+      - with-nginx
+
+  # Optional: Redis for caching (future enhancement)
+  redis:
+    image: redis:7-alpine
+    container_name: whoip-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - whoip-network
+    profiles:
+      - with-redis
+
+  # Optional: PostgreSQL for production database
+  postgres:
+    image: postgres:15-alpine
+    container_name: whoip-postgres
+    environment:
+      - POSTGRES_DB=whoip
+      - POSTGRES_USER=${POSTGRES_USER:-whoip}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - whoip-network
+    profiles:
+      - with-postgres
+
+networks:
+  whoip-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
