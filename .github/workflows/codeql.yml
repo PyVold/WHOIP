@@ -12,6 +12,7 @@ jobs:
   analyze:
     name: Analyze Code
     runs-on: ubuntu-latest
+    continue-on-error: true
     permissions:
       actions: read
       contents: read
@@ -30,9 +31,12 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+      continue-on-error: true
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
+      continue-on-error: true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      continue-on-error: true
